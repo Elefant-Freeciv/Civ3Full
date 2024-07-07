@@ -1,0 +1,44 @@
+========================================
+Welcome to Freeland Graphic Tilesets 3.0
+========================================
+------
+$Name: freeciv-2_3_x-freeland-3_0_Beta2 $
+------
+
+This is release 3.0-beta2 for Freeciv 3.0.x
+
+__________________________
+Release 2.0.0 - 2006/06/11
+--------------------------
+- This is a major release, the first for Freeciv 2.1.x and
+  is NOT compatible with older version of Freeciv.
+- New set of tiles with a medium tile size (96x48).
+- New look for base terrains, mountains and hills.
+- Water and forest/jungle enhancement.
+- Now the big tileset use cities of the same size of the new medium set
+  avoiding "resized/blurred look".
+- Added the fog and unit select tiles.
+__________________________
+Release 1.0.2 - 2006/04/23
+--------------------------
+- Now units are an adaptation of amplio unit set.
+- Change of the ocean brightness.
+- Package split, one for each tileset size.
+_____________
+Release 1.0.1
+-------------
+- Now cities are an adptation of the amplio city set.
+_____________
+Release 1.0.0
+-------------
+- This is the first release.
+- It contains two different set of tiles: freeland with a tile size of 64x32 and
+  freeland-big with a tile size of 128x64.
+- This tilesets are using the more complex graphics system offered by Freeciv with
+  1296 tile for base terrains (arctic, desert, grassland, plains, sea and tundra).
+- Some graphics are derived from isotrident and bigisotrident tileset (cities,
+  resources, units.
+- Base terrains and special terrains are generated with a pseudo fractal generator.
+- Mountains and hills tiles are generated with Blender.
+- All 2D graphic elaborations are obtained with ImageMagick library and Gimp.
+_____________

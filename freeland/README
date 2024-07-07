@@ -1,0 +1,73 @@
+========================================
+Welcome to Freeland Graphic Tilesets 3.0
+========================================
+
+This is release 3.0-beta2
+
+Release was originally made for freeciv-2.3. Porting to newer freeciv versions
+by cazfi.
+
+-----------------------------------------------------------------------------
+
+1. Introduction
+
+Freeland is an isometric Graphics Tileset for Freeciv game with high quality
+graphic, using the more complex graphics system offered by Freeciv client with more
+than thousand tile for base terrains (arctic, desert, grassland, plains, sea
+and tundra).
+This tileset is distributed in three different set of tiles (3 different tarball):
+- freeland-normal (normal size 64x32)
+- freeland-medium (medium size 96x48)
+- freeland-big (big size 128x64)
+
+For more info see:
+- NEWS file for history news.
+- Freeciv forum (http://forum.freeciv.org):
+	~ "Art and tilesets" --> "New GPL tilesets - Freeland" (http://forum.freeciv.org/viewtopic.php?t=1648).
+	~ "General discussion" --> "Freeland - tech support" (http://forum.freeciv.org/viewtopic.php?t=1785).
+
+-----------------------------------------------------------------------------
+
+2. Software requirements
+
+Freeland 3.0 require a Freeciv 3.0 distribution.
+- on Linux/Unix require the gtk client or the sdl client.
+- on Windows ... (not tested)
+
+-----------------------------------------------------------------------------
+
+3. Hardware requirements
+
+I try it on a Core2 2.4GHz machine with 2GB of RAM and true color resolution.
+
+-----------------------------------------------------------------------------
+
+4. Installation
+
+- Download tarball from Freeciv download Extras page http://www.freeciv.org/index.php/Extras
+  or from ftp://ftp.freeciv.org/freeciv/contrib/tilesets/freeland/.
+- Unpack the tarball on your Freeciv 2.3.x "data" directory. The tileset is
+  selectable as any other Freeciv tileset (freeciv-gtk3 -t set-name).
+- Enjoy
+
+-----------------------------------------------------------------------------
+
+5. License
+
+Some graphics are adapted from GPL tilesets available for Freeciv (isotrident,amplio).
+All other graphics/textures used in this work are created from scratch, or derived with
+image manipulation from the great GPL photo collection of Susanna Gross, available
+at http://strike.colorado.edu.
+
+This work is licensed under the GNU GENERAL PUBLIC LICENSE V.2
+View COPYING for more details.
+
+-----------------------------------------------------------------------------
+
+6. Copyright 
+
+Copyright (C) 2006 - 2011 Peter Arbor <peter.arbor@gmail.com>
+This work may be redistributed under the terms of the
+GNU GPL version 2 or later.
+
+-----------------------------------------------------------------------------

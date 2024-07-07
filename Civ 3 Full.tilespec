@@ -1,0 +1,461 @@
+;================================================
+;Freeland Graphics Tileset 3.0
+;$Name: freeciv-2_3_x-freeland-3_0_Beta2 $
+;$Revision: 1.15 $ - $Date: 2011-03-18 06:40:29 $
+;================================================
+
+[tilespec]
+
+; Format and options of this tilespec file:
+options = "+Freeciv-3.0-tilespec"
+
+; A simple name for the tileset specified by this file:
+name = "Civ 3 Full Size"
+priority = 22
+
+; Version information
+version = "3.0-beta2.2-00"
+
+; Summary and full description of the tileset.
+summary = _("Full size Civ 3 tileset based on Freeland")
+description = *Civ 3 Full/freeland/README*
+
+; What is the primary ruleset this tileset is meant for.
+;for_ruleset = ""
+
+; Basic tile sizes:
+normal_tile_width = 128
+normal_tile_height = 64
+small_tile_width = 15
+small_tile_height = 20
+
+; Basic tile style.
+type   = "isometric"
+is_hex = FALSE
+
+; Blended fog
+fog_style      = "Darkness"
+darkness_style = "Corner"
+
+; offset the flags by this amount when drawing units
+unit_flag_offset_x = 57
+unit_flag_offset_y = 36
+city_flag_offset_x = 17
+city_flag_offset_y = 11
+
+; offset the city occupied sprite by this amount
+occupied_offset_x = 0
+occupied_offset_y = 0
+
+; offset the units by this amount
+unit_offset_x = -55
+unit_offset_y = -60
+
+; offset of the normal activity icons
+activity_offset_x = 0
+activity_offset_y = 0
+
+; offset of the selected unit sprites
+select_offset_x = 0
+select_offset_y = 0
+
+; offset the cities by this amount
+city_offset_x = 0
+city_offset_y = 0
+
+; offset the city size number by this amount
+; This is relative to full sprite origin.
+city_size_offset_x = 0
+city_size_offset_y = 0
+
+; offset the citybar text by this amount (from the city tile origin)
+citybar_offset_y = 40
+
+; offset the tile label text by this amount
+tilelabel_offset_y = 20
+
+; offset the upkeep icons by this amount from the top of the unit itself.
+; The default is the normal tile height, which means that the upkeep icons
+; appear below the unit icon if the unit icons are equal to tile height
+; (typical in overhead tileset), or overlay lower part of the unit icon,
+; if unit icon is higher than tiles (typical in iso tilesets)
+;unit_upkeep_offset_y = 0
+
+; Like unit_upkeep_offset_y, but to be used in case there`s only small
+; space for the overall icon produced. Defaults to unit_upkeep_offset_y -
+; not having alternative layout.
+;unit_upkeep_small_offset_y = 0
+
+; For tilesets with oriented units, the directional sprite to use to
+; represent a unit type rather than a specific unit from the map
+; (e.g., in worklists, editor, and online help). Does not have to be a
+; valid direction for the tileset.
+unit_default_orientation = "s"
+
+; The map is rendered in "layers", just like any decent image editor
+; supports. The setting below allows to change the layer drawing order. The
+; first layer in the list will be drawn below the others; the second on top
+; of it, and so on. No layer can be omitted from the list, nor can new ones
+; be added.
+;layer_order =
+;  "Background", ; Background color (if enabled, the player color where there
+;                ; are units or cities). You probably want to leave this
+;                ; first.
+;  "Terrain1",   ; The three terrain layers. See sections [layerN] below.
+;  "Darkness",   ; Darkness (unseen tiles)
+;  "Terrain2",
+;  "Terrain3",
+;  "Water",      ; All extras with "River" style.
+;  "Roads",      ; All extras with style "RoadAllSeparate",
+;                ; "RoadParityCombined" or "RoadAllCombined".
+;  "Special1",   ; 1st layer for extras with style "3Layers", "Single2" or
+;                ; "Single1".
+;  "Grid1",      ; Grid layer for isometric tilesets.
+;  "City1",      ; City and walls.
+;  "Special2",   ; 2nd layer for extras with "3Layers" and "Single2" styles.
+;  "Fog",        ; Fog of war (on tiles one knows but doesn`t see).
+;  "Unit",       ; Units except the selected one(s).
+;  "Special3",   ; 3rd layer for extras with "3Layers" style, and base flags.
+;  "City2",      ; City size when the city bar is disabled.
+;  "Grid2",      ; Second grid layer (overhead tilesets only).
+;  "Overlays",   ; Tile output sprites.
+;  "TileLabel",  ; Tile labels ("Scorched spot").
+;  "CityBar",    ; The city bar with name, production, food, ...
+;  "FocusUnit",  ; The focused unit(s).
+;  "Goto",       ; Goto turn count and intermediate points, *not* goto lines.
+;  "WorkerTask", ; The unit task indicators ("G", "S", ...).
+;  "Editor"      ; Editor stuff (selected tile and start points).
+
+; -------------------------------------------------
+; This is special because it gets freed and reloaded as required:
+main_intro_file = "misc/intro"
+
+; -------------------------------------------------
+; Below, the graphics spec files; must be somewhere (anywhere) in
+; the data path. Order may be important for color allocation on
+; low-color systems, and if there are any duplicate tags (lattermost
+; tag is used).
+; -------------
+files =
+; General graphics
+  "misc/small.spec",
+  "misc/governments.spec",
+  "misc/specialists.spec",
+  "misc/events.spec",
+  "misc/flags.spec",
+  "misc/shields.spec",
+  "misc/techs.spec",
+  "misc/space.spec",
+  "misc/treaty.spec",
+  "misc/overlays.spec",
+  "misc/cursors.spec",
+  "misc/icons.spec",
+  "misc/citybar.spec",
+  "misc/editor.spec",
+
+  "Civ 3 Full/freeland/common/buildings.spec",
+  "Civ 3 Full/freeland/common/wonders.spec",
+
+  "Civ 3 Full/freeland/big/tiles.spec",
+  "Civ 3 Full/freeland/big/misc.spec",
+  "Civ 3 Full/freeland/big/grid.spec",
+  "Civ 3 Full/freeland/big/nuke.spec",
+  "Civ 3 Full/freeland/big/resources.spec",
+  "Civ 3 Full/freeland/big/paths.spec",
+  "Civ 3 Full/freeland/big/fog.spec",
+
+; Units
+  "Civ 3 Full/freeland/big/units.spec",
+  "Civ 3 Full/freeland/big/unitextras.spec",
+  "Civ 3 Full/freeland/big/select.spec",
+  "Civ 3 Full/civ3full_units/u_aegis_cruiser/u_aegis_cruiser.spec",
+  "Civ 3 Full/civ3full_units/u_alpine_troops/u_alpine_troops.spec",
+  "Civ 3 Full/civ3full_units/u_archers/u_archers.spec",
+  "Civ 3 Full/civ3full_units/u_armor/u_armor.spec",
+  "Civ 3 Full/civ3full_units/u_artillery/u_artillery.spec",
+  "Civ 3 Full/civ3full_units/u_awacs/u_awacs.spec",
+  "Civ 3 Full/civ3full_units/u_barbarian_leader/u_barbarian_leader.spec",
+  "Civ 3 Full/civ3full_units/u_battleship/u_battleship.spec",
+  "Civ 3 Full/civ3full_units/u_bomber/u_bomber.spec",
+  "Civ 3 Full/civ3full_units/u_cannon/u_cannon.spec",
+  "Civ 3 Full/civ3full_units/u_caravan/u_caravan.spec",
+  "Civ 3 Full/civ3full_units/u_caravel/u_caravel.spec",
+  "Civ 3 Full/civ3full_units/u_carrier/u_carrier.spec",
+  "Civ 3 Full/civ3full_units/u_catapult/u_catapult.spec",
+  "Civ 3 Full/civ3full_units/u_cavalry/u_cavalry.spec",
+  "Civ 3 Full/civ3full_units/u_chariot/u_chariot.spec",
+  "Civ 3 Full/civ3full_units/u_cruiser/u_cruiser.spec",
+  "Civ 3 Full/civ3full_units/u_crusaders/u_crusaders.spec",
+  "Civ 3 Full/civ3full_units/u_destroyer/u_destroyer.spec",
+  "Civ 3 Full/civ3full_units/u_diplomat/u_diplomat.spec",
+  "Civ 3 Full/civ3full_units/u_dragoons/u_dragoons.spec",
+  "Civ 3 Full/civ3full_units/u_elephants/u_elephants.spec",
+  "Civ 3 Full/civ3full_units/u_engineers/u_engineers.spec",
+  "Civ 3 Full/civ3full_units/u_explorer/u_explorer.spec",
+  "Civ 3 Full/civ3full_units/u_fanatics/u_fanatics.spec",
+  "Civ 3 Full/civ3full_units/u_fighter/u_fighter.spec",
+  "Civ 3 Full/civ3full_units/u_freight/u_freight.spec",
+  "Civ 3 Full/civ3full_units/u_frigate/u_frigate.spec",
+  "Civ 3 Full/civ3full_units/u_galleon/u_galleon.spec",
+  "Civ 3 Full/civ3full_units/u_helicopter/u_helicopter.spec",
+  "Civ 3 Full/civ3full_units/u_horsemen/u_horsemen.spec",
+  "Civ 3 Full/civ3full_units/u_howitzer/u_howitzer.spec",
+  "Civ 3 Full/civ3full_units/u_ironclad/u_ironclad.spec",
+  "Civ 3 Full/civ3full_units/u_knights/u_knights.spec",
+  "Civ 3 Full/civ3full_units/u_leader/u_leader.spec",
+  "Civ 3 Full/civ3full_units/u_legion/u_legion.spec",
+  "Civ 3 Full/civ3full_units/u_marines/u_marines.spec",
+  "Civ 3 Full/civ3full_units/u_mech_inf/u_mech_inf.spec",
+  "Civ 3 Full/civ3full_units/u_migrants/u_migrants.spec",
+  "Civ 3 Full/civ3full_units/u_cruise_missile/u_cruise_missile.spec",
+  "Civ 3 Full/civ3full_units/u_musketeers/u_musketeers.spec",
+  "Civ 3 Full/civ3full_units/u_nuclear/u_nuclear.spec",
+  "Civ 3 Full/civ3full_units/u_paratroopers/u_paratroopers.spec",
+  "Civ 3 Full/civ3full_units/u_partisan/u_partisan.spec",
+  "Civ 3 Full/civ3full_units/u_phalanx/u_phalanx.spec",
+  "Civ 3 Full/civ3full_units/u_pikemen/u_pikemen.spec",
+  "Civ 3 Full/civ3full_units/u_riflemen/u_riflemen.spec",
+  "Civ 3 Full/civ3full_units/u_settlers/u_settlers.spec",
+  "Civ 3 Full/civ3full_units/u_spy/u_spy.spec",
+  "Civ 3 Full/civ3full_units/u_stealth_bomber/u_stealth_bomber.spec",
+  "Civ 3 Full/civ3full_units/u_stealth_fighter/u_stealth_fighter.spec",
+  "Civ 3 Full/civ3full_units/u_submarine/u_submarine.spec",
+  "Civ 3 Full/civ3full_units/u_transport/u_transport.spec",
+  "Civ 3 Full/civ3full_units/u_trireme/u_trireme.spec",
+  "Civ 3 Full/civ3full_units/u_warriors/u_warriors.spec",
+  "Civ 3 Full/civ3full_units/u_workers/u_workers.spec",
+
+; Cities adapted from amplio set
+  "Civ 3 Full/freeland/big/cities/cities.spec",
+  "Civ 3 Full/freeland/big/cities/misc-cities.spec",
+
+; Base terrains
+  "Civ 3 Full/freeland/big/terrains/s.spec",
+  "Civ 3 Full/freeland/big/terrains/g.spec",
+  "Civ 3 Full/freeland/big/terrains/p.spec",
+  "Civ 3 Full/freeland/big/terrains/d.spec",
+  "Civ 3 Full/freeland/big/terrains/t.spec",
+  "Civ 3 Full/freeland/big/terrains/a.spec",
+
+; Special terrains
+  "Civ 3 Full/freeland/big/terrains/oceans.spec",
+  "Civ 3 Full/freeland/big/terrains/deeps.spec",
+  "Civ 3 Full/freeland/big/terrains/mountains_bg.spec",
+  "Civ 3 Full/freeland/big/terrains/mountains.spec",
+  "Civ 3 Full/freeland/big/terrains/hills.spec",
+  "Civ 3 Full/freeland/big/terrains/forests_bg.spec",
+  "Civ 3 Full/freeland/big/terrains/forests.spec",
+  "Civ 3 Full/freeland/big/terrains/jungles_bg.spec",
+  "Civ 3 Full/freeland/big/terrains/jungles.spec",
+  "Civ 3 Full/freeland/big/terrains/swamps.spec",
+  "Civ 3 Full/freeland/big/terrains/irrigations.spec",
+  "Civ 3 Full/freeland/big/terrains/farmlands.spec",
+  "Civ 3 Full/freeland/big/terrains/roads.spec",
+  "Civ 3 Full/freeland/big/terrains/rails.spec",
+  "Civ 3 Full/freeland/big/terrains/rivers.spec",
+  "Civ 3 Full/freeland/big/terrains/river-outlets.spec"
+
+; Include color definitions
+*include "misc/colors.tilespec"
+; -------------------------------------------------
+
+; Terrain info - see README.graphics
+; --------------------------------
+
+[layer0]
+match_types = "s", "g", "p", "d", "t", "a"
+
+[layer1]
+match_types = "ocean", "swamp", "hill", "forest_bg", "jungle_bg", "mountain_bg"
+
+[layer2]
+match_types = "deep", "forest", "jungle", "mountain"
+
+; --------------------------------
+; Water graphics
+[tile_lake]
+tag = "lake"
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "s"
+layer0_match_with = "g", "p", "d", "t", "a"
+layer0_sprite_type = "corner"
+
+[tile_coast]
+tag = "coast"
+blend_layer = 0
+num_layers = 2
+layer0_match_type = "s"
+layer0_match_with = "g", "p", "d", "t", "a"
+layer0_sprite_type = "corner"
+layer1_match_type = "ocean"
+layer1_match_with = "ocean"
+layer1_sprite_type = "corner"
+
+[tile_floor]
+tag = "floor"
+blend_layer = 1
+num_layers = 3
+layer0_match_type = "s"
+layer0_match_with = "g", "p", "d", "t", "a"
+layer0_sprite_type = "corner"
+layer1_match_type = "ocean"
+layer1_match_with = "ocean"
+layer1_sprite_type = "corner"
+layer2_match_type =  "deep"
+layer2_match_with = "deep"
+layer2_sprite_type = "corner"
+
+[tile_swamp]
+tag = "swamp"
+blend_layer = 0
+num_layers = 2
+layer0_match_type = "g"
+layer0_match_with = "s", "p", "d", "t", "a"
+layer0_sprite_type = "corner"
+layer1_match_with = "swamp"
+layer1_match_type = "swamp"
+; --------------------------------
+
+; --------------------------------
+[tile_jungle]
+tag = "jungle"
+blend_layer = 0
+num_layers = 3
+layer0_match_type = "p"
+layer0_match_with = "s", "g", "d", "t", "a"
+layer0_sprite_type = "corner"
+layer1_match_type = "jungle_bg"
+layer1_match_with = "jungle_bg"
+layer1_is_tall = TRUE
+layer1_offset_y = 4
+layer2_match_type = "jungle"
+layer2_match_with = "jungle"
+layer2_is_tall = TRUE
+layer2_offset_y = 4
+
+[tile_forest]
+tag = "forest"
+blend_layer = 0
+num_layers = 3
+layer0_match_type = "p"
+layer0_match_with = "s", "g", "d", "t", "a"
+layer0_sprite_type = "corner"
+layer1_match_type = "forest_bg"
+layer1_match_with = "forest_bg"
+layer1_is_tall = TRUE
+layer1_offset_y = 4
+layer2_match_type = "forest"
+layer2_match_with = "forest"
+layer2_is_tall = TRUE
+layer2_offset_y = 4
+
+[tile_hills]
+tag = "hills"
+blend_layer = 0
+num_layers = 2
+layer0_match_type = "g"
+layer0_match_with = "s", "p", "d", "t", "a"
+layer0_sprite_type = "corner"
+layer1_match_type = "hill"
+layer1_match_with = "hill"
+
+[tile_mountains]
+tag = "mountains"
+blend_layer = 0
+num_layers = 3
+layer0_match_type = "g"
+layer0_match_with = "s", "p", "d", "t", "a"
+layer0_sprite_type = "corner"
+layer1_match_type = "mountain_bg"
+layer1_match_with = "mountain_bg"
+layer1_is_tall = TRUE
+layer1_offset_y = 4
+layer2_match_type = "mountain"
+layer2_match_with = "mountain"
+layer2_is_tall = TRUE
+layer2_offset_y = 4
+; --------------------------------
+
+; --------------------------------
+[tile_grassland]
+tag = "grassland"
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "g"
+layer0_match_with = "s", "p", "d", "t", "a"
+layer0_sprite_type = "corner"
+
+[tile_plains]
+tag = "plains"
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "p"
+layer0_match_with = "s", "g", "d", "t", "a"
+layer0_sprite_type = "corner"
+
+[tile_desert]
+tag = "desert"
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "d"
+layer0_match_with = "s", "g", "p", "t", "a"
+layer0_sprite_type = "corner"
+
+[tile_tundra]
+tag = "tundra"
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "t"
+layer0_match_with = "s", "g", "p", "d", "a"
+layer0_sprite_type = "corner"
+
+[tile_arctic]
+tag = "arctic"
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "a"
+layer0_match_with = "s", "g", "p", "d", "t"
+layer0_sprite_type = "corner"
+; --------------------------------
+
+[extras]
+styles =
+    { "name",          "style"
+      "road.road",     "RoadAllCombined"
+      "road.rail",     "RoadAllCombined"
+      "road.river",    "River"
+      "tx.irrigation", "Cardinals"
+      "tx.farmland",   "Cardinals"
+      "tx.mine",       "Single1"
+      "tx.oil_mine",   "Single1"
+      "tx.pollution",  "Single2"
+      "tx.fallout",    "Single2"
+      "tx.village",    "Single1"
+      "base.fortress", "3Layer"
+      "base.airbase",  "3Layer"
+      "base.buoyu",    "3Layer"
+      "extra.ruins",   "3Layer"
+      "ts.gold",       "Single1"
+      "ts.iron",       "Single1"
+      "ts.tundra_game", "Single1"
+      "ts.furs",       "Single1"
+      "ts.coal",       "Single1"
+      "ts.fish",       "Single1"
+      "ts.fruit",      "Single1"
+      "ts.gems",       "Single1"
+      "ts.buffalo",    "Single1"
+      "ts.wheat",      "Single1"
+      "ts.oasis",      "Single1"
+      "ts.peat",       "Single1"
+      "ts.pheasant",   "Single1"
+      "ts.grassland_resources", "Single1"
+      "ts.arctic_ivory", "Single1"
+      "ts.silk",       "Single1"
+      "ts.spice",      "Single1"
+      "ts.whales",     "Single1"
+      "ts.wine",       "Single1"
+      "ts.oil",        "Single1"
+      "ts.horses",     "Single1"
+      "ts.seals",      "Single1"
+    }
