@@ -190,12 +190,27 @@ def convert():
     for link in urls:
         tag = tags[urls.index(link)].strip()
         cwd = os.getcwd()
-        os.makedirs(cwd+"/output/tileset/"+tag)
-        os.makedirs(cwd+"/"+finalPath+tag)
+        if not os.path.exists(cwd+"/output/tileset/"+tag):
+            os.makedirs(cwd+"/output/tileset/"+tag)
+        if not os.path.exists(cwd+"/"+finalPath+tag):
+            os.makedirs(cwd+"/"+finalPath+tag)
         if os.path.exists(tag+".rar") == False:
             file = requests.get(link)
             open(tag+".rar", "wb").write(file.content)
-        os.system('cmd /c "7z.exe e "'+tag+'".rar -ooutput/temp/"'+tag+'" -y"')
+        if os.name == "nt":
+            os.system('cmd /c "7z.exe e "'+tag+'".rar -ooutput/temp/"'+tag+'" -y"')
+        if os.name == "posix":
+            #print('7z e "'+tag+'".rar -ooutput/temp/"'+tag+'" -y')
+            #os.system('7za e "'+tag+'".rar -ooutput/temp/"'+tag+'" -y')
+            os.system('file-roller --force -e "./output/temp/'+tag+'" '+tag+'.rar')
+            print(len(os.listdir("output/temp/"+tag)))
+            if len(os.listdir("output/temp/"+tag))==1:
+                bad_path = os.listdir("output/temp/"+tag)[0]
+                for file in os.listdir("output/temp/"+tag+"/"+bad_path):
+                    print(file)
+                    os.rename("output/temp/"+tag+"/"+bad_path+"/"+file, "output/temp/"+tag+"/"+file)
+        else:
+            raise Exception("Sorry, OS is not supported") 
         for file in os.listdir("output/temp/"+tag):
             if file.endswith('.flc') and file.count("Strafe") == 0 and file.count("VTOL") == 0 and os.path.exists("output/tileset/"+tag+"/d_sw.png") == False:
                 temp_img = Image.open("output/temp/"+tag+"/"+file)
