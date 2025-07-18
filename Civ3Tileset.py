@@ -12,6 +12,12 @@ text1 = Text(app, text="Choose C3TS Input File")
 space1 = Text(app, text="")
 textbox1 = TextBox(app, text="Civ 3 Full.c3ts")
 
+"""
+"Idle", "Pollution", "Mine", "Irrigate", "Fortified",
+ "Pillage", "Transform", "Fortifying", "Fallout", "Clean",
+ "Base", "Road", "Convert", "Cultivate", or "Plant".
+"""
+
 def make_spec(tag, folder):
     spec = open(folder+tag+"/"+tag+".spec","w+")
     spec.write('''
@@ -51,7 +57,11 @@ sprites =
     
 
 def convert_img_bg(pic):
-    palette = np.array(pic.getpalette(), dtype=np.uint8).reshape((256,3))
+    p=pic.getpalette()
+    for i in range(len(p)-1, (256*3)-1):
+        p.append(0)
+#     print(p)
+    palette = np.array(p, dtype=np.uint8).reshape((256,3))
     alpha = [
         [25, 0, 25],
         [40,0,40],
@@ -95,7 +105,11 @@ def convert_img_bg(pic):
 def convert_to_transparent(path, output_dir, tag, direction):
     pic = Image.open(path)
     pic = pic.quantize(colors=128)
-    palette = np.array(pic.getpalette(), dtype=np.uint8).reshape((256,3))
+    p=pic.getpalette()
+    for i in range(len(p)-1, (256*3)-1):
+        p.append(0)
+#     print(p)
+    palette = np.array(p, dtype=np.uint8).reshape((256,3))
     #print(palette)
     new_palette = []
     #print(pic.getpixel((0,0)))
@@ -107,6 +121,12 @@ def convert_to_transparent(path, output_dir, tag, direction):
 #             new_palette.append(0)
 #             #print(colour)
 #             #print(palette[pic.getpixel((0,0))])
+#         print(colour)
+#         if colour[2] == 255:
+#             new_palette.append(colour[0])
+#             new_palette.append(colour[1])
+#             new_palette.append(colour[2])
+#             new_palette.append(255)
         if colour[0] == colour[2]+1 or colour[0] == colour[2] and colour[1] <= colour[0]/2:
             new_palette.append(colour[0])
             new_palette.append(colour[0])
@@ -202,20 +222,35 @@ def convert():
         if os.name == "posix":
             #print('7z e "'+tag+'".rar -ooutput/temp/"'+tag+'" -y')
             #os.system('7za e "'+tag+'".rar -ooutput/temp/"'+tag+'" -y')
-            os.system('file-roller --force -e "./output/temp/'+tag+'" '+tag+'.rar')
+            print('./output/temp/'+tag)
+            if os.path.exists('./output/temp/'+tag) == False:
+                os.system('file-roller --force -e "./output/temp/'+tag+'" '+tag+'.rar')
             print(len(os.listdir("output/temp/"+tag)))
-            if len(os.listdir("output/temp/"+tag))==1:
-                bad_path = os.listdir("output/temp/"+tag)[0]
-                for file in os.listdir("output/temp/"+tag+"/"+bad_path):
-                    print(file)
-                    os.rename("output/temp/"+tag+"/"+bad_path+"/"+file, "output/temp/"+tag+"/"+file)
+            for path in os.listdir("output/temp/"+tag):
+                if os.path.isdir("output/temp/"+tag+"/"+path):
+                    print(path)
+                    for path2 in os.listdir("output/temp/"+tag+"/"+path):
+                        print("output/temp/"+tag+"/"+path+"/"+path2)
+                        print("output/temp/"+tag+"/"+path2)
+                        if os.path.exists("output/temp/"+tag+"/"+path2) == False:
+                            os.rename("output/temp/"+tag+"/"+path+"/"+path2, "output/temp/"+tag+"/"+path2)
+                        
+#             if len(os.listdir("output/temp/"+tag))>0:
+#                 for path in 
+#                 print(os.listdir("output/temp/"+tag)[0])
+#                 bad_path = os.listdir("output/temp/"+tag)[0]
+#                 print(bad_path)
+#                 for file in os.listdir("output/temp/"+tag+"/"+bad_path):
+#                     print(file)
+#                     os.rename("output/temp/"+tag+"/"+bad_path+"/"+file, "output/temp/"+tag+"/"+file)
         else:
             raise Exception("Sorry, OS is not supported") 
         for file in os.listdir("output/temp/"+tag):
+            print(file)
             if file.endswith('.flc') and file.count("Strafe") == 0 and file.count("VTOL") == 0 and os.path.exists("output/tileset/"+tag+"/d_sw.png") == False:
                 temp_img = Image.open("output/temp/"+tag+"/"+file)
                 try:
-                    temp_img.save("output/temp/"+tag+"/test.gif", save_all=True, loop=0)
+                    temp_img.save("output/temp/"+tag+"/"+file+".gif", save_all=True, loop=0)
                 except OSError:
                     print("Couldn't Save GIF File")
                 else:
@@ -225,51 +260,55 @@ def convert():
                     print(gif.is_animated)
                     print("frames: "+str(gif.n_frames))
                     frame_loc = 0
+#                     print(int(gif.n_frames/8)+2)
                     for frame in ImageSequence.Iterator(gif):
                         frame_loc += 1
+#                         print(frame_loc)
                         if frame_loc == 1:
                             try:
                                 frame.save("output/tileset/"+tag+"/d_s.png")
                             except OSError:
                                #End of sequence
                                print("Couldn't Save PNG File")
-                        elif frame_loc == (gif.n_frames/8)+2:
+                        elif frame_loc == int(gif.n_frames/8)+2:
+                            print("output/tileset/"+tag+"/d_se.png")
+                            frame.save("output/tileset/"+tag+"/d_se.png")
                             try:
                                 frame.save("output/tileset/"+tag+"/d_se.png")
                             except OSError:
                                #End of sequence
                                print("Couldn't Save PNG File")
-                        elif frame_loc == (gif.n_frames/4)+3:
+                        elif frame_loc == int(gif.n_frames/4)+3:
                             try:
                                 frame.save("output/tileset/"+tag+"/d_e.png")
                             except OSError:
                                #End of sequence
                                print("Couldn't Save PNG File")
-                        elif frame_loc == ((gif.n_frames/8)*3)+4:
+                        elif frame_loc == (int(gif.n_frames/8)*3)+4:
                             try:
                                 frame.save("output/tileset/"+tag+"/d_ne.png")
                             except OSError:
                                #End of sequence
                                print("Couldn't Save PNG File")
-                        elif frame_loc == ((gif.n_frames/8)*4)+5:
+                        elif frame_loc == (int(gif.n_frames/8)*4)+5:
                             try:
                                 frame.save("output/tileset/"+tag+"/d_n.png")
                             except OSError:
                                #End of sequence
                                print("Couldn't Save PNG File")
-                        elif frame_loc == ((gif.n_frames/8)*5)+6:
+                        elif frame_loc == (int(gif.n_frames/8)*5)+6:
                             try:
                                 frame.save("output/tileset/"+tag+"/d_nw.png")
                             except OSError:
                                #End of sequence
                                print("Couldn't Save PNG File")
-                        elif frame_loc == ((gif.n_frames/8)*6)+7:
+                        elif frame_loc == (int(gif.n_frames/8)*6)+7:
                             try:
                                 frame.save("output/tileset/"+tag+"/d_w.png")
                             except OSError:
                                #End of sequence
                                print("Couldn't Save PNG File")
-                        elif frame_loc == ((gif.n_frames/8)*7)+8:
+                        elif frame_loc == (int(gif.n_frames/8)*7)+8:
                             try:
                                 frame.save("output/tileset/"+tag+"/d_sw.png")
                             except OSError:
