@@ -13,9 +13,21 @@ space1 = Text(app, text="")
 textbox1 = TextBox(app, text="Civ 3 Full.c3ts")
 
 """
-"Idle", "Pollution", "Mine", "Irrigate", "Fortified",
- "Pillage", "Transform", "Fortifying", "Fallout", "Clean",
- "Base", "Road", "Convert", "Cultivate", or "Plant".
+"Idle", default
+"Pollution", Irrigate
+"Mine", Mine
+"Irrigate", Irrigate
+"Fortified", fortify hold
+"Pillage", Victory
+"Transform", 
+"Fortifying", Fortify
+"Fallout", Irrigate
+"Clean", Irrigate
+"Base", Fortress Build
+"Road", Road
+"Convert", Build
+"Cultivate", Irrigate
+"Plant", Plant, Irrigate
 """
 
 def make_spec(tag, folder):
