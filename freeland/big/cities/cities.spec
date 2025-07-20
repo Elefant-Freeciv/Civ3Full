@@ -5,8 +5,11 @@
 ; have to be drawn with a tile. E.g. european_4 means that the tile is to be
 ; used for cities of size 4+ in european style. Obviously the first tile
 ; must be style_name_0. The sizes must be in ascending order.
-; There must also be a style_name_wall tile used to draw the wall and
-; an occupied tile to indicate a miltary units in a city.
+; There must also be a 'style_name'_wall_0 tile used
+; for the default wall graphics and an occupied tile to indicate
+; a military units in a city.
+; For providing multiple walls buildings (as requested by the "Visible_Walls"
+; effect value) tags are 'style_name'_bldg_'effect_value'_'index'
 ; The maximum size supported now is 31, but there can only be MAX_CITY_TILES
 ; normal tiles. The constant is defined in common/city.h and set to 8 now.
 ;
@@ -14,7 +17,7 @@
 [spec]
 
 ; Format and options of this spec file:
-options = "+Freeciv-3.0-spec"
+options = "+Freeciv-spec-3.3-Devel-2023.Apr.05"
 
 [info]
 

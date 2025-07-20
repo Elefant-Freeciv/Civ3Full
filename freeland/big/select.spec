@@ -1,7 +1,7 @@
 [spec]
 
 ; Format and options of this spec file:
-options = "+Freeciv-3.0-spec"
+options = "+Freeciv-spec-3.3-Devel-2023.Apr.05"
 
 [info]
 
@@ -22,8 +22,8 @@ dy = 64
 pixel_border = 0
 
 tiles = { "row", "column", "tag"
-  0, 0, "unit.select3"
-  0, 1, "unit.select2"
-  0, 2, "unit.select1"
-  0, 3, "unit.select0"
+  0, 0, "unit.select:3"
+  0, 1, "unit.select:2"
+  0, 2, "unit.select:1"
+  0, 3, "unit.select:0"
 }

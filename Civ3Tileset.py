@@ -30,8 +30,9 @@ textbox1 = TextBox(app, text="Civ 3 Full.c3ts")
 "Plant", Plant, Irrigate
 """
 
-def make_spec(tag, folder):
+def make_spec(tag, folder, frames, anims):
     spec = open(folder+tag+"/"+tag+".spec","w+")
+    #print(anims)
     spec.write('''
 ;Made by Civ III Tileset for freeciv
 ;All graphics remain the property of their creators and are subject to their licenses
@@ -39,7 +40,7 @@ def make_spec(tag, folder):
 [spec]
 
 ; Format and options of this spec file:
-options = "+Freeciv-3.0-spec"
+options = "+Freeciv-spec-3.3-Devel-2023.Apr.05"
 
 [info]
 
@@ -51,17 +52,19 @@ artists = "
 
 [extra]
 sprites =
-	{	"tag", "file"\n''')
-    spec.write('		"u.'+tag[2:len(tag)]+'_s", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_s"\n')
-    spec.write('		"u.'+tag[2:len(tag)]+'_se", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_se"\n')
-    spec.write('		"u.'+tag[2:len(tag)]+'_e", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_e"\n')
-    spec.write('		"u.'+tag[2:len(tag)]+'_ne", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_ne"\n')
-    spec.write('		"u.'+tag[2:len(tag)]+'_n", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_n"\n')
-    spec.write('		"u.'+tag[2:len(tag)]+'_nw", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_nw"\n')
-    spec.write('		"u.'+tag[2:len(tag)]+'_w", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_w"\n')
-    spec.write('		"u.'+tag[2:len(tag)]+'_sw", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_sw"\n')
-    spec.write('''		}
-''')
+{	"tag", "file"\n''')
+    for anim in anims:
+        #print(anim)
+        for i in range(frames):
+            spec.write('		"u.'+tag[2:len(tag)]+'_'+anim+'_s:'+str(i)+'", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_'+anim+'_s:'+str(i)+'"\n')
+            spec.write('		"u.'+tag[2:len(tag)]+'_'+anim+'_se:'+str(i)+'", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_'+anim+'_se:'+str(i)+'"\n')
+            spec.write('		"u.'+tag[2:len(tag)]+'_'+anim+'_e:'+str(i)+'", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_'+anim+'_e:'+str(i)+'"\n')
+            spec.write('		"u.'+tag[2:len(tag)]+'_'+anim+'_ne:'+str(i)+'", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_'+anim+'_ne:'+str(i)+'"\n')
+            spec.write('		"u.'+tag[2:len(tag)]+'_'+anim+'_n:'+str(i)+'", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_'+anim+'_n:'+str(i)+'"\n')
+            spec.write('		"u.'+tag[2:len(tag)]+'_'+anim+'_nw:'+str(i)+'", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_'+anim+'_nw:'+str(i)+'"\n')
+            spec.write('		"u.'+tag[2:len(tag)]+'_'+anim+'_w:'+str(i)+'", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_'+anim+'_w:'+str(i)+'"\n')
+            spec.write('		"u.'+tag[2:len(tag)]+'_'+anim+'_sw:'+str(i)+'", "Civ 3 Full/'+folder+tag+'/final_'+tag+'_'+anim+'_sw:'+str(i)+'"\n')
+    spec.write('''		}\n''')
     spec.close()
 
 
@@ -114,31 +117,15 @@ def convert_img_bg(pic):
     pic.putpalette(new_palette, rawmode="RGB")
     return pic
 
-def convert_to_transparent(path, output_dir, tag, direction):
+def convert_to_transparent(path, output_dir, tag, direction, anim, frame):
     pic = Image.open(path)
     pic = pic.quantize(colors=128)
     p=pic.getpalette()
     for i in range(len(p)-1, (256*3)-1):
         p.append(0)
-#     print(p)
     palette = np.array(p, dtype=np.uint8).reshape((256,3))
-    #print(palette)
     new_palette = []
-    #print(pic.getpixel((0,0)))
     for colour in palette:
-#         if colour.all() == palette[pic.getpixel((0,0))].all():
-#             new_palette.append(0)
-#             new_palette.append(0)
-#             new_palette.append(0)
-#             new_palette.append(0)
-#             #print(colour)
-#             #print(palette[pic.getpixel((0,0))])
-#         print(colour)
-#         if colour[2] == 255:
-#             new_palette.append(colour[0])
-#             new_palette.append(colour[1])
-#             new_palette.append(colour[2])
-#             new_palette.append(255)
         if colour[0] == colour[2]+1 or colour[0] == colour[2] and colour[1] <= colour[0]/2:
             new_palette.append(colour[0])
             new_palette.append(colour[0])
@@ -152,22 +139,22 @@ def convert_to_transparent(path, output_dir, tag, direction):
     pic.putpalette(new_palette, rawmode="RGBA")
     new_image = Image.new("RGBA", (240, 240), color=(0,0,0,0))
     new_image.paste(pic, box=(int(120-pic.width/2), int(120-pic.height/2)))
-    new_image.save(output_dir+tag+"/final_"+tag+"_"+direction+".png")
+    new_image.save(output_dir+tag+"/final_"+tag+"_"+anim+"_"+direction+":"+str(frame)+".png")
     
-def crop_to_cimpletoon(path, name, outputpath):
+def crop_to_cimpletoon(path, name, outputpath, frame=0):
     minx = 0
     miny = 0
     maxx = 0
     maxy = 0
     imgs   =  {}
-    imgs["sw"] = Image.open(path+"/d_sw.png")
-    imgs["s"]  = Image.open(path+"/d_s.png")
-    imgs["se"] = Image.open(path+"/d_se.png")
-    imgs["e"]  = Image.open(path+"/d_e.png")
-    imgs["ne"] = Image.open(path+"/d_ne.png")
-    imgs["n"]  = Image.open(path+"/d_n.png")
-    imgs["nw"] = Image.open(path+"/d_nw.png")
-    imgs["w"]  = Image.open(path+"/d_w.png")
+    imgs["sw"] = Image.open(path+"/d_sw:"+str(frame)+".png")
+    imgs["s"]  = Image.open(path+"/d_s:"+str(frame)+".png")
+    imgs["se"] = Image.open(path+"/d_se:"+str(frame)+".png")
+    imgs["e"]  = Image.open(path+"/d_e:"+str(frame)+".png")
+    imgs["ne"] = Image.open(path+"/d_ne:"+str(frame)+".png")
+    imgs["n"]  = Image.open(path+"/d_n:"+str(frame)+".png")
+    imgs["nw"] = Image.open(path+"/d_nw:"+str(frame)+".png")
+    imgs["w"]  = Image.open(path+"/d_w:"+str(frame)+".png")
 
     for img in imgs:
         #print("next pic")
@@ -232,10 +219,9 @@ def convert():
         if os.name == "nt":
             os.system('cmd /c "7z.exe e "'+tag+'".rar -ooutput/temp/"'+tag+'" -y"')
         if os.name == "posix":
-            #print('7z e "'+tag+'".rar -ooutput/temp/"'+tag+'" -y')
-            #os.system('7za e "'+tag+'".rar -ooutput/temp/"'+tag+'" -y')
             print('./output/temp/'+tag)
             if os.path.exists('./output/temp/'+tag) == False:
+                #os.system('7za e "'+tag+'".rar -ooutput/temp/"'+tag+'" -y')
                 os.system('file-roller --force -e "./output/temp/'+tag+'" '+tag+'.rar')
             print(len(os.listdir("output/temp/"+tag)))
             for path in os.listdir("output/temp/"+tag):
@@ -246,96 +232,127 @@ def convert():
                         print("output/temp/"+tag+"/"+path2)
                         if os.path.exists("output/temp/"+tag+"/"+path2) == False:
                             os.rename("output/temp/"+tag+"/"+path+"/"+path2, "output/temp/"+tag+"/"+path2)
-                        
-#             if len(os.listdir("output/temp/"+tag))>0:
-#                 for path in 
-#                 print(os.listdir("output/temp/"+tag)[0])
-#                 bad_path = os.listdir("output/temp/"+tag)[0]
-#                 print(bad_path)
-#                 for file in os.listdir("output/temp/"+tag+"/"+bad_path):
-#                     print(file)
-#                     os.rename("output/temp/"+tag+"/"+bad_path+"/"+file, "output/temp/"+tag+"/"+file)
         else:
-            raise Exception("Sorry, OS is not supported") 
+            raise Exception("Sorry, OS is not supported")
+        
+        anims = {}
+        
         for file in os.listdir("output/temp/"+tag):
-            print(file)
-            if file.endswith('.flc') and file.count("Strafe") == 0 and file.count("VTOL") == 0 and os.path.exists("output/tileset/"+tag+"/d_sw.png") == False:
+            #print(file)
+            if file.endswith(".INI") or file.endswith(".ini"):
+                ini = open("output/temp/"+tag+"/"+file)
+                ini = ini.read()
+                ini = ini.splitlines()
+                #print(ini)
+                for line in ini:
+                    if line.startswith("DEFAULT") and line.endswith('.flc'):
+                        anims["Idle"]=line.split("=")[1]
+                    if line.startswith("IRRIGATE") and line.endswith('.flc'):
+                        filename=line.split("=")[1]
+                        anims["Pollution"]=filename
+                        anims["Irrigate"]=filename
+                        anims["Fallout"]=filename
+                        anims["Clean"]=filename
+                        anims["Cultivate"]=filename
+                    if line.startswith("MINE") and line.endswith('.flc'):
+                        anims["Mine"]=line.split("=")[1]
+                    if line.startswith("FORTIFY") and line.endswith('.flc'):
+                        anims["Fortifying"]=line.split("=")[1]
+                        anims["Fortified"]=line.split("=")[1]
+                    if line.startswith("VICTORY") and line.endswith('.flc'):
+                        anims["Pillage"]=line.split("=")[1]
+                    if line.startswith("FORTRESS") and line.endswith('.flc'):
+                        anims["Base"]=line.split("=")[1]
+                    if line.startswith("ROAD") and line.endswith('.flc'):
+                        anims["Road"]=line.split("=")[1]
+                    if line.startswith("BUILD") and line.endswith('.flc'):
+                        anims["Convert"]=line.split("=")[1]
+        #print(anims)
+        
+        if len(anims) == 0:
+            anims["Idle"]="Default.flc"
+        
+        for anim in anims:
+            #print(anim)
+            file = anims[anim]
+            try:
                 temp_img = Image.open("output/temp/"+tag+"/"+file)
-                try:
-                    temp_img.save("output/temp/"+tag+"/"+file+".gif", save_all=True, loop=0)
-                except OSError:
-                    print("Couldn't Save GIF File")
-                else:
-                    convert_img_bg(temp_img).save("output/temp/"+tag+"/test.gif", save_all=True, loop=0)
-                    img = temp_img.copy()
-                    gif = Image.open("output/temp/"+tag+"/test.gif")
-                    print(gif.is_animated)
-                    print("frames: "+str(gif.n_frames))
-                    frame_loc = 0
-#                     print(int(gif.n_frames/8)+2)
-                    for frame in ImageSequence.Iterator(gif):
-                        frame_loc += 1
-#                         print(frame_loc)
-                        if frame_loc == 1:
-                            try:
-                                frame.save("output/tileset/"+tag+"/d_s.png")
-                            except OSError:
-                               #End of sequence
-                               print("Couldn't Save PNG File")
-                        elif frame_loc == int(gif.n_frames/8)+2:
-                            print("output/tileset/"+tag+"/d_se.png")
-                            frame.save("output/tileset/"+tag+"/d_se.png")
-                            try:
-                                frame.save("output/tileset/"+tag+"/d_se.png")
-                            except OSError:
-                               #End of sequence
-                               print("Couldn't Save PNG File")
-                        elif frame_loc == int(gif.n_frames/4)+3:
-                            try:
-                                frame.save("output/tileset/"+tag+"/d_e.png")
-                            except OSError:
-                               #End of sequence
-                               print("Couldn't Save PNG File")
-                        elif frame_loc == (int(gif.n_frames/8)*3)+4:
-                            try:
-                                frame.save("output/tileset/"+tag+"/d_ne.png")
-                            except OSError:
-                               #End of sequence
-                               print("Couldn't Save PNG File")
-                        elif frame_loc == (int(gif.n_frames/8)*4)+5:
-                            try:
-                                frame.save("output/tileset/"+tag+"/d_n.png")
-                            except OSError:
-                               #End of sequence
-                               print("Couldn't Save PNG File")
-                        elif frame_loc == (int(gif.n_frames/8)*5)+6:
-                            try:
-                                frame.save("output/tileset/"+tag+"/d_nw.png")
-                            except OSError:
-                               #End of sequence
-                               print("Couldn't Save PNG File")
-                        elif frame_loc == (int(gif.n_frames/8)*6)+7:
-                            try:
-                                frame.save("output/tileset/"+tag+"/d_w.png")
-                            except OSError:
-                               #End of sequence
-                               print("Couldn't Save PNG File")
-                        elif frame_loc == (int(gif.n_frames/8)*7)+8:
-                            try:
-                                frame.save("output/tileset/"+tag+"/d_sw.png")
-                            except OSError:
-                               #End of sequence
-                               print("Couldn't Save PNG File")
-                    convert_to_transparent("output/tileset/"+tag+"/d_s.png", finalPath, tag, "s")
-                    convert_to_transparent("output/tileset/"+tag+"/d_se.png", finalPath, tag, "se")
-                    convert_to_transparent("output/tileset/"+tag+"/d_e.png", finalPath, tag, "e")
-                    convert_to_transparent("output/tileset/"+tag+"/d_ne.png", finalPath, tag, "ne")
-                    convert_to_transparent("output/tileset/"+tag+"/d_n.png", finalPath, tag, "n")
-                    convert_to_transparent("output/tileset/"+tag+"/d_nw.png", finalPath, tag, "nw")
-                    convert_to_transparent("output/tileset/"+tag+"/d_w.png", finalPath, tag, "w")
-                    convert_to_transparent("output/tileset/"+tag+"/d_sw.png", finalPath, tag, "sw")
-                    make_spec(tag, finalPath)
-#                     crop_to_cimpletoon("output/tileset/"+tag, tag, finalPath)
+            except FileNotFoundError:
+                temp_img = Image.open("output/temp/"+tag+"/"+file.capitalize())
+            try:
+                temp_img.save("output/temp/"+tag+"/"+file+".gif", save_all=True, loop=0)
+            except OSError:
+                print("Couldn't Save GIF File")
+            else:
+                convert_img_bg(temp_img).save("output/temp/"+tag+"/test.gif", save_all=True, loop=0)
+                img = temp_img.copy()
+                gif = Image.open("output/temp/"+tag+"/test.gif")
+                #print(gif.is_animated)
+                #print("frames: "+str(gif.n_frames))
+                frame_loc = 0
+                #anim="Idle"
+                for frame in ImageSequence.Iterator(gif):
+                    if frame_loc <= int(gif.n_frames/8):
+                        try:
+                            frame.save("output/tileset/"+tag+"/d_"+anim+"_s:"+str(frame_loc)+".png")
+                        except OSError:
+                           #End of sequence
+                           print("Couldn't Save PNG File")
+                        convert_to_transparent("output/tileset/"+tag+"/d_"+anim+"_s:"+str(frame_loc)+".png", finalPath, tag, "s", anim, int(frame_loc%(gif.n_frames/8)))
+                    if frame_loc >= int(gif.n_frames/8)+1 and frame_loc < int(gif.n_frames/8)*2+2:
+                        try:
+                            frame.save("output/tileset/"+tag+"/d_"+anim+"_se:"+str(frame_loc)+".png")
+                        except OSError:
+                           #End of sequence
+                           print("Couldn't Save PNG File")
+                        convert_to_transparent("output/tileset/"+tag+"/d_"+anim+"_se:"+str(frame_loc)+".png", finalPath, tag, "se", anim, int(frame_loc%(gif.n_frames/8)))
+                    if frame_loc >= int(gif.n_frames/8)*2+2 and frame_loc < int(gif.n_frames/8)*3+3:
+                        try:
+                            frame.save("output/tileset/"+tag+"/d_"+anim+"_e:"+str(frame_loc)+".png")
+                        except OSError:
+                           #End of sequence
+                           print("Couldn't Save PNG File")
+                        convert_to_transparent("output/tileset/"+tag+"/d_"+anim+"_e:"+str(frame_loc)+".png", finalPath, tag, "e", anim, int(frame_loc%(gif.n_frames/8)))
+                    if frame_loc >= int(gif.n_frames/8)*3+3 and frame_loc < int(gif.n_frames/8)*4+4:
+                        try:
+                            frame.save("output/tileset/"+tag+"/d_"+anim+"_ne:"+str(frame_loc)+".png")
+                        except OSError:
+                           #End of sequence
+                           print("Couldn't Save PNG File")
+                        convert_to_transparent("output/tileset/"+tag+"/d_"+anim+"_ne:"+str(frame_loc)+".png", finalPath, tag, "ne", anim, int(frame_loc%(gif.n_frames/8)))
+                    if frame_loc >= int(gif.n_frames/8)*3+3 and frame_loc < int(gif.n_frames/8)*4+4:
+                        try:
+                            frame.save("output/tileset/"+tag+"/d_"+anim+"_n:"+str(frame_loc)+".png")
+                        except OSError:
+                           #End of sequence
+                           print("Couldn't Save PNG File")
+                        convert_to_transparent("output/tileset/"+tag+"/d_"+anim+"_n:"+str(frame_loc)+".png", finalPath, tag, "n", anim, int(frame_loc%(gif.n_frames/8)))
+                    if frame_loc >= int(gif.n_frames/8)*3+3 and frame_loc < int(gif.n_frames/8)*4+4:
+                        try:
+                            frame.save("output/tileset/"+tag+"/d_"+anim+"_nw:"+str(frame_loc)+".png")
+                        except OSError:
+                           #End of sequence
+                           print("Couldn't Save PNG File")
+                        convert_to_transparent("output/tileset/"+tag+"/d_"+anim+"_nw:"+str(frame_loc)+".png", finalPath, tag, "nw", anim, int(frame_loc%(gif.n_frames/8)))
+                    if frame_loc >= int(gif.n_frames/8)*3+3 and frame_loc < int(gif.n_frames/8)*4+4:
+                        try:
+                            frame.save("output/tileset/"+tag+"/d_"+anim+"_w:"+str(frame_loc)+".png")
+                        except OSError:
+                           #End of sequence
+                           print("Couldn't Save PNG File")
+                        convert_to_transparent("output/tileset/"+tag+"/d_"+anim+"_w:"+str(frame_loc)+".png", finalPath, tag, "w", anim, int(frame_loc%(gif.n_frames/8)))
+                    if frame_loc >= int(gif.n_frames/8)*3+3 and frame_loc < int(gif.n_frames/8)*4+4:
+                        try:
+                            frame.save("output/tileset/"+tag+"/d_"+anim+"_sw:"+str(frame_loc)+".png")
+                        except OSError:
+                           #End of sequence
+                           print("Couldn't Save PNG File")
+                        #print("Saving file from anim: "+anim)
+                        convert_to_transparent("output/tileset/"+tag+"/d_"+anim+"_sw:"+str(frame_loc)+".png", finalPath, tag, "sw", anim, int(frame_loc%(gif.n_frames/8)))
+
+
+                    frame_loc += 1
+                make_spec(tag, finalPath, int(gif.n_frames/8), anims)
 
 space2 = Text(app, text="")
 button1 = PushButton(app, text="Convert", command=convert)

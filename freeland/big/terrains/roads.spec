@@ -1,7 +1,7 @@
 [spec]
 
 ; Format and options of this spec file:
-options = "+Freeciv-3.0-spec"
+options = "+Freeciv-spec-3.3-Devel-2023.Apr.05"
 
 [info]
 

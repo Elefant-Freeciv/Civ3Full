@@ -2,7 +2,7 @@
 [spec]
 
 ; Format and options of this spec file:
-options = "+Freeciv-3.0-spec"
+options = "+Freeciv-spec-3.3-Devel-2023.Apr.05"
 
 [info]
 
@@ -38,7 +38,8 @@ tiles = { "row", "column", "tag"
   2, 15, "unit.plant"
   2, 16, "unit.pollution"
   2, 17, "unit.road"
-  2, 18, "unit.irrigate"
+  2, 18, "unit.cultivate",
+         "unit.irrigate" ; For rulesets still using this tag
   2, 19, "unit.fortifying",
          "unit.fortress"
   3, 16, "unit.airbase"
@@ -131,7 +132,7 @@ tiles = { "row", "column", "tag"
   7, 18, "upkeep.unhappy2"
   7, 19, "upkeep.shield"
 
-; Nuclear explosion: this could maybe now be handled as one 
+; Nuclear explosion: this could maybe now be handled as one
 ; big graphic (?), but for now is done old way as 3 by 3:
 
 ;  0,  0, "explode.nuke_00"
