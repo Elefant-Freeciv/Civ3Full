@@ -17,6 +17,8 @@ Crashes less
 Makes spec files
 Has a .c3ts file for a full standard civ 3 tileset
 
+Current main supports unit animations.
+
 Civ 3 Full
 Full size unit graphics on freeland big tiles
 You will need to get and copy the freeland images over
